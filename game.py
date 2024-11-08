@@ -166,7 +166,7 @@ class tictactoe:
                     print("============================================================")
                     self.game_repeat()
 
-            if len(self.playerOneTurnCounts) > 5 or len(self.playerTwoTurnCounts) > 4:
+            if len(self.playerOneTurnCounts) > 4:
                 print("The game is a draw!")
                 print("============================================================")
                 self.game_repeat()
@@ -210,6 +210,11 @@ class tictactoe:
         self.player_one_name = input("Please enter your display name (Player One): ")
         self.player_two_name = input("Please enter your display name (Player Two): ")
         print("============================================================")
+        if self.player_one_name == "" or self.player_two_name == "":
+            print("Player name cannot be empty!")
+            print("============================================================")
+            self.set_player()
+
         # print("To decide the first start, a toss will be done!")
         # print("============================================================")
         # self.toss_decision()
@@ -247,6 +252,4 @@ class tictactoe:
                     self.turn_list.append("X")
 
             self.grid_check_update()
-            print(self.playerOneTurnCounts)
-            print(self.playerTwoTurnCounts)
 
