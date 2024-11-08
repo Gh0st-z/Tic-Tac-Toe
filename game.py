@@ -170,7 +170,7 @@ class tictactoe:
                 print("The game is a draw!")
                 print("============================================================")
                 self.game_repeat()
-                
+
 
     def game_repeat(self):
         play_again = input("Would you like to play again? Y/N: ")
