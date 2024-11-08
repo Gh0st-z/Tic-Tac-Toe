@@ -174,6 +174,7 @@ class tictactoe:
 
     def game_repeat(self):
         play_again = input("Would you like to play again? Y/N: ")
+        print("============================================================")
                 
         if play_again.upper() == "Y":
             self.game()
@@ -185,6 +186,7 @@ class tictactoe:
 
         else:
             print("Please enter Y/N!")
+            print("============================================================")
             self.game_repeat()
                 
 
