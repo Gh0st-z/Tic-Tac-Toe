@@ -1,5 +1,5 @@
 # Tic-Tac-Toe
-A simple Tic Tac Toe game to play with friends. This is a version 1.0 release. Play with CPU update is coming soon!
+A simple Tic Tac Toe game to play with friends. This is a version 1.1 release. Play with CPU update is coming soon!
 
 # Setting up the project
 All you need for setting up the project is python version 3.7 and above. Download and install the python version 3.7 
