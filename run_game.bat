@@ -1,5 +1,5 @@
 @echo off
-set file=main_menu.py
+set file=main.py
 
 REM Check if the Python file for the game exists
 if exist "%file%" (

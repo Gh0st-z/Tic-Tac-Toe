@@ -2,31 +2,62 @@ import random
 
 class Player:
 
-    def allocate_player(self, player_one, player_two):
+    def __init__(self, connection=None, client_address=None):
 
-        player_one_username = player_one
-        player_two_username = player_two
-        player_one_toss = None
+        self.conn = connection
+        self.client_address = client_address
+
+
+    def allocate_player(self, player_one, player_two, multiplayer=None):
+
         toss_list = ['H', 'T']
 
-        print("Let's decide who starts first with a toss!")
-        print("============================================================")
+        if multiplayer and multiplayer.mode == "host":
+            
+            player_one_toss = input(f"{player_one}, choose heads or tails (H/T): ").strip().upper()
 
-        player_one_toss = input(player_one_username + " , Enter your decision of heads or tails (H or T): ")
-        print("============================================================")
+            while player_one_toss not in toss_list:
+                player_one_toss = input("Invalid Input. Please choose H or T: ").strip().upper()
 
-        if random.choice(toss_list).upper() == player_one_toss:
-            print(player_one_username + " has won the toss!")
+            toss_result = random.choice(toss_list)
+            print(f"The toss result is: {toss_result}")
+
+            if toss_result == player_one_toss:
+
+                print(f"{player_one} wins the toss and will start first!")
+                self.conn.send(f"Toss:{toss_result}:O".encode())
+                return True
+            
+            else:
+
+                print(f"{player_two} wins the toss and will start first!")
+                self.conn.send(f"Toss:{toss_result}:X".encode())
+                return False
+            
+        elif multiplayer and multiplayer.mode == "client":
+            
+            print(f"Please wait {player_one} is performing a toss!")
             print("============================================================")
-            return True
+            toss_info = self.conn.recv(1024).decode()
+            toss_result, assigned_symbol = toss_info.split(":")[1:]
+
+            print(f"The toss result is: {toss_result}")
+            print(f"You have been assigned '{assigned_symbol}'")
         
-        elif player_one_toss not in toss_list:
-            print("Enter H or T accordingly!")
-            print("============================================================")
-            self.allocate_player(player_one_username, player_two_username)
-
         else:
-            print(player_two_username + " has won the toss!")
-            print("============================================================")
-            return False
-        
+
+            player_one_toss = input(f"{player_one}, choose heads or tails (H/T): ").strip().upper()
+            while player_one_toss not in toss_list:
+                player_one_toss = input("Invalid input. Please choose H or T: ").strip().upper()
+
+            toss_result = random.choice(toss_list)
+            print(f"The toss result is: {toss_result}")
+
+            if toss_result == player_one_toss:
+                print(f"{player_one} wins the toss and will start first!")
+                print("============================================================")
+                return True
+            else:
+                print(f"{player_two} wins the toss and will start first!")
+                print("============================================================")
+                return False

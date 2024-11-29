@@ -1,40 +1,10 @@
-import os
-import subprocess
-import socket
-import sys
-
 from game import tictactoe
-from modules.config import Config
-
-game_obj = tictactoe()
-
-def is_server_running(host, port):
-
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        try:
-            s.connect((host, port))
-            return True
-        except socket.error:
-            return False
-
-def start_server():
-    file_path = 'run_server.bat'
-    
-    if not is_server_running(Config.SERVER_IP, Config.SERVER_PORT):
-        if os.path.exists(file_path):
-            subprocess.run(f'start cmd /c {file_path}', shell=True)
-        
-        else:
-            print("Server File is not present! Cannot start server!")
-
-    else:
-        print("Server is already running!")
 
 
 def menu():
-
-    start_server()
     
+    game_obj = tictactoe()
+
     try:
 
         print("============================================================")
@@ -58,7 +28,7 @@ def menu():
         elif game_mode == 3:
             print("Thank you for playing the game!")
             input("Press any key to close the program...")
-            sys.exit(0)
+            exit()
 
         else:
             print("Please enter valid input from 1 to 3!")
@@ -69,7 +39,12 @@ def menu():
         menu()
 
     except ConnectionRefusedError:
-        print("Please wait for the server to open!")
+        print("No open room available! Please open a room first!")
         menu()
+
+    except ConnectionResetError:
+        print("The room has been disbanded!")
+        menu()
+
 
 menu()
